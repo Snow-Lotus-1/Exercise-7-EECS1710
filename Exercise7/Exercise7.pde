@@ -1,23 +1,22 @@
-//messed around with the glsl file, it's now really red
-PShader shader;
+//just went and looked at an example in processing
+//this is what I think we were actually supposed to do
+KochFractal k;
 
 void setup() {
-  frameRate(60);
-  size(800, 600, P2D);
-  shader = loadShader("myShader.glsl");
-  shader.set("resolution", float(width), float(height));
-  shader.set("depth", 1.0);
-  shader.set("rate", 1.0);
+  size(800,250);
+  background(255,0,0);
+  frameRate(2);  // Animate slowly
+  k = new KochFractal();
 }
 
 void draw() {
-  background(0);
-  
-  stroke(0, 255, 0);
-  fill(0, 127, 255);
-  ellipse(width/2, height/2, 400, 400);
-  ellipse(100, height/2, 200, 200);
-
-  shader.set("time", float(millis())/1000.0);
-  filter(shader);
+  background(255,0,0);
+  // Draws the snowflake!
+  k.render();
+  // Iterate
+  k.nextLevel();
+  // really hard to see after 6
+  if (k.getCount() > 10) {
+    k.restart();
+  }
 }
